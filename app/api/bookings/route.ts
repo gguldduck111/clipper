@@ -1,11 +1,8 @@
-import { eq } from "drizzle-orm";
-
 import {
-  appointments,
-  groomingPackages,
-} from "@/db/schema";
-import { findAvailableGroomer } from "@/lib/clipper/data";
-import { getDatabase } from "@/lib/clipper/db";
+  createAppointment,
+  findAvailableGroomer,
+  getPackageById,
+} from "@/lib/clipper/data";
 
 type BookingRequest = {
   petName?: unknown;
@@ -14,6 +11,7 @@ type BookingRequest = {
   neighborhood?: unknown;
   address?: unknown;
   startsAt?: unknown;
+  notes?: unknown;
 };
 
 export async function POST(request: Request) {
@@ -51,12 +49,15 @@ export async function POST(request: Request) {
     );
   }
 
-  const petName = input.petName as string;
-  const petBreed = input.petBreed as string;
-  const packageId = input.packageId as string;
-  const neighborhood = input.neighborhood as string;
-  const address = input.address as string;
-  const startsAt = new Date(input.startsAt as string);
+  // Trimmed once here, so everything downstream works with stored values.
+  const petName = (input.petName as string).trim();
+  const petBreed = (input.petBreed as string).trim();
+  const packageId = (input.packageId as string).trim();
+  const neighborhood = (input.neighborhood as string).trim();
+  const address = (input.address as string).trim();
+  const startsAt = new Date((input.startsAt as string).trim());
+  const notes =
+    typeof input.notes === "string" ? input.notes.trim() || null : null;
 
   if (Number.isNaN(startsAt.getTime())) {
     return Response.json(
@@ -65,12 +66,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = getDatabase();
-  const [groomingPackage] = await db
-    .select()
-    .from(groomingPackages)
-    .where(eq(groomingPackages.id, packageId))
-    .limit(1);
+  if (startsAt <= new Date()) {
+    return Response.json(
+      { ok: false, error: "startsAt must be in the future." },
+      { status: 400 },
+    );
+  }
+
+  const groomingPackage = await getPackageById(packageId);
 
   if (!groomingPackage) {
     return Response.json(
@@ -82,11 +85,7 @@ export async function POST(request: Request) {
   const endsAt = new Date(
     startsAt.getTime() + groomingPackage.durationMinutes * 60 * 1000,
   );
-  const groomerId = await findAvailableGroomer(
-    neighborhood,
-    startsAt,
-    endsAt,
-  );
+  const groomerId = await findAvailableGroomer(neighborhood, startsAt, endsAt);
 
   if (!groomerId) {
     return Response.json(
@@ -98,40 +97,31 @@ export async function POST(request: Request) {
     );
   }
 
-  const now = new Date();
-  const bookingReference = `CLP-${Math.random()
-    .toString(36)
-    .slice(2, 8)
-    .toUpperCase()}`;
-  const appointmentId = `apt_${Date.now()}_${Math.random()
-    .toString(36)
-    .slice(2, 7)}`;
+  let bookingReference: string;
 
-  await db.insert(appointments).values({
-    id: appointmentId,
-    bookingReference,
-    petName: petName.trim(),
-    petBreed: petBreed.trim(),
-    groomerId,
-    packageId,
-    address: address.trim(),
-    neighborhood: neighborhood.trim(),
-    startsAt,
-    endsAt,
-    status: "confirmed",
-    priceCents: groomingPackage.priceCents,
-    notes: null,
-    createdAt: now,
-    updatedAt: now,
-  });
-
-  // log it, don't make the customer wait for it
-  Promise.resolve().then(() => {
-    console.info("Clipper booking created", {
-      bookingReference,
-      petName: petName.trim(),
+  try {
+    bookingReference = await createAppointment({
+      petName,
+      petBreed,
+      groomerId,
+      packageId,
+      address,
+      neighborhood,
+      startsAt,
+      endsAt,
+      priceCents: groomingPackage.priceCents,
+      notes,
     });
-  });
+  } catch (error) {
+    console.error("Failed to save booking", error);
+
+    return Response.json(
+      { ok: false, error: "We could not save that visit. Please try again." },
+      { status: 500 },
+    );
+  }
+
+  console.info("Clipper booking created", { bookingReference, petName });
 
   return Response.json({ ok: true, reference: bookingReference });
 }
