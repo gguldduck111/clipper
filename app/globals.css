@@ -23,6 +23,54 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Clipper surfaces & ink */
+  --color-surface: var(--surface);
+  --color-surface-card: var(--surface-card);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-ink-inverse: var(--ink-inverse);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-on: var(--brand-on);
+  --color-cyan-accent: var(--cyan-accent);
+  --color-inverse-muted: var(--inverse-muted);
+  --color-inverse-subtle: var(--inverse-subtle);
+
+  /* Status */
+  --color-ok-bg: var(--ok-bg);
+  --color-ok-border: var(--ok-border);
+  --color-ok-fg: var(--ok-fg);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-info-fg: var(--info-fg);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
+  --color-danger-fg: var(--danger-fg);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-border: var(--warn-border);
+  --color-warn-fg: var(--warn-fg);
+
+  /* Warm (error / not-found) palette */
+  --color-warm-surface: var(--warm-surface);
+  --color-warm-card: var(--warm-card);
+  --color-warm-line: var(--warm-line);
+  --color-warm-ink: var(--warm-ink);
+  --color-warm-ink-muted: var(--warm-ink-muted);
+  --color-warm-ink-inverse: var(--warm-ink-inverse);
+  --color-warm-accent: var(--warm-accent);
+  --color-warm-accent-soft: var(--warm-accent-soft);
+  --color-warm-button: var(--warm-button);
+  --color-warm-highlight: var(--warm-highlight);
+  --color-warm-outline: var(--warm-outline);
+  --color-warm-outline-on: var(--warm-outline-on);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -50,9 +98,62 @@
   --border: #e4e4e7;
   --input: #e4e4e7;
   --ring: #a1a1aa;
+
+  --surface: #f7f9fc;
+  --surface-card: #ffffff;
+  --surface-muted: #f7f9fc;
+  --surface-inverse: #0a2540;
+  --ink: #0a2540;
+  --ink-muted: #53627a;
+  --ink-subtle: #8898aa;
+  --ink-inverse: #ffffff;
+  --line: #dbe3ef;
+  --line-soft: #e6ebf1;
+  --brand: #635bff;
+  --brand-hover: #0a2540;
+  --brand-soft: #eef1ff;
+  --brand-on: #ffffff;
+  --cyan-accent: #80e9ff;
+  --inverse-muted: #adbdcc;
+  --inverse-subtle: #d6e2ec;
+
+  --ok-bg: #e7f8f1;
+  --ok-border: #bfe8db;
+  --ok-fg: #08775d;
+  --info-bg: #eef1ff;
+  --info-border: #cbd8ff;
+  --info-fg: #4353a3;
+  --danger-bg: #fff3f0;
+  --danger-border: #f3aaa0;
+  --danger-fg: #8f3d30;
+  --warn-bg: #fff8dc;
+  --warn-border: #e4d5a3;
+  --warn-fg: #775d13;
+
+  --warm-surface: #f7f0e6;
+  --warm-card: #fffaf3;
+  --warm-line: #ded2c2;
+  --warm-ink: #202321;
+  --warm-ink-muted: #766b61;
+  --warm-ink-inverse: #fffaf3;
+  --warm-accent: #b94f3e;
+  --warm-accent-soft: #f4e2d6;
+  --warm-button: #202321;
+  --warm-highlight: #ff6b58;
+  --warm-outline: #25231e;
+  --warm-outline-on: #fff8e9;
+
+  --shadow-card: rgb(38 46 77 / 10%);
+  --shadow-card-strong: rgb(38 46 77 / 12%);
+  --shadow-float: rgb(50 50 93 / 24%);
+  --shadow-inverse: rgb(10 37 64 / 32%);
+  --shadow-brand: rgb(99 91 255 / 25%);
+  --shadow-warm: rgb(74 56 36 / 8%);
+  --hairline-inverse: rgb(255 255 255 / 15%);
+
   color-scheme: light;
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--surface);
+  color: var(--ink);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -77,6 +178,59 @@
   --border: #27272a;
   --input: #27272a;
   --ring: #71717a;
+
+  --surface: #080d18;
+  --surface-card: #121a2b;
+  --surface-muted: #0d1524;
+  --surface-inverse: #121a2b;
+  --ink: #e9eefb;
+  --ink-muted: #a6b4cc;
+  --ink-subtle: #8494af;
+  --ink-inverse: #f4f7ff;
+  --line: #273348;
+  --line-soft: #1d2639;
+  --brand: #8e88ff;
+  --brand-hover: #aaa5ff;
+  --brand-soft: #1b2142;
+  --brand-on: #0b1020;
+  --cyan-accent: #8ceeff;
+  --inverse-muted: #a6b4cc;
+  --inverse-subtle: #c7d2e6;
+
+  --ok-bg: #0f2a22;
+  --ok-border: #1f5544;
+  --ok-fg: #62d6ae;
+  --info-bg: #171e38;
+  --info-border: #2e3d70;
+  --info-fg: #adbaff;
+  --danger-bg: #2b1816;
+  --danger-border: #5f2d29;
+  --danger-fg: #ffa298;
+  --warn-bg: #272013;
+  --warn-border: #50441f;
+  --warn-fg: #ecd27f;
+
+  --warm-surface: #15110e;
+  --warm-card: #211b15;
+  --warm-line: #3b3025;
+  --warm-ink: #f3ece3;
+  --warm-ink-muted: #b7aa9a;
+  --warm-ink-inverse: #1a1511;
+  --warm-accent: #ff9d85;
+  --warm-accent-soft: #3a251c;
+  --warm-button: #f3ece3;
+  --warm-highlight: #ff8f78;
+  --warm-outline: #e8e0d4;
+  --warm-outline-on: #1a1511;
+
+  --shadow-card: rgb(0 0 0 / 45%);
+  --shadow-card-strong: rgb(0 0 0 / 55%);
+  --shadow-float: rgb(0 0 0 / 60%);
+  --shadow-inverse: rgb(0 0 0 / 55%);
+  --shadow-brand: rgb(142 136 255 / 20%);
+  --shadow-warm: rgb(0 0 0 / 45%);
+  --hairline-inverse: rgb(255 255 255 / 12%);
+
   color-scheme: dark;
 }
 
@@ -92,14 +246,11 @@ a {
 .clipper-booking--prism {
   max-width: none;
   padding-top: 5rem;
-}
-
-.clipper-booking--prism {
-  border-block: 1px solid #dbe3ef;
-  background: #f7f9fc;
+  border-block: 1px solid var(--line);
+  background: var(--surface);
 }
 
 .clipper-booking--prism > div > div:last-child {
-  border-color: #e2e8f0 !important;
-  box-shadow: 0 28px 80px rgb(38 46 77 / 12%) !important;
+  border-color: var(--line) !important;
+  box-shadow: 0 28px 80px var(--shadow-card-strong) !important;
 }

@@ -11,6 +11,7 @@ import {
   getRescheduleSlots,
 } from "@/lib/clipper/data";
 import { appointmentChangeBlockReason } from "@/lib/clipper/policy";
+import { ThemeToggle } from "@/components/clipper/theme-toggle";
 
 type AppointmentPageProps = {
   params: Promise<{ reference: string }>;
@@ -37,22 +38,25 @@ export default async function AppointmentPage({
   const rescheduleSlots = blockReason ? [] : await getRescheduleSlots(appointment);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#f7f9fc] text-[#0a2540]">
-      <div aria-hidden="true" className="absolute -right-[28rem] -top-[35rem] h-[62rem] w-[62rem] rotate-[24deg] bg-[linear-gradient(135deg,#ffdb80,#ff8f70_28%,#d783ff_52%,#7a73ff_74%,#68d5ff)] opacity-55 blur-[3px]" />
+    <main className="relative min-h-screen overflow-hidden bg-surface text-ink">
+      <div aria-hidden="true" className="absolute -right-[28rem] -top-[35rem] h-[62rem] w-[62rem] rotate-[24deg] bg-[linear-gradient(135deg,#ffdb80,#ff8f70_28%,#d783ff_52%,#7a73ff_74%,#68d5ff)] opacity-55 blur-[3px] dark:opacity-30" />
       <div className="mx-auto max-w-6xl px-5 pb-16 sm:px-8 lg:px-12">
         <header className="relative flex items-center justify-between py-6 sm:py-8">
-          <Link href="/" className="text-2xl font-black tracking-[-0.07em] text-[#0a2540]">clipper</Link>
-          <Link href={BOOKING_HREF} className="inline-flex items-center gap-2 rounded-full bg-[#635bff] px-5 py-2.5 text-sm font-bold !text-white transition-colors hover:bg-[#0a2540]">
-            Book another visit <ArrowUpRight aria-hidden="true" className="size-4" />
-          </Link>
+          <Link href="/" className="text-2xl font-black tracking-[-0.07em] text-ink">clipper</Link>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Link href={BOOKING_HREF} className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold !text-brand-on transition-colors hover:bg-brand-hover">
+              Book another visit <ArrowUpRight aria-hidden="true" className="size-4" />
+            </Link>
+          </div>
         </header>
 
         <div className="relative mx-auto max-w-4xl pt-8 sm:pt-14">
-          <Link href="/appointments" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-[#53627a] transition-colors hover:text-[#635bff]">
+          <Link href="/appointments" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-ink-muted transition-colors hover:text-brand">
             <ArrowLeft aria-hidden="true" className="size-4" /> All appointments
           </Link>
           {query.changed && (
-            <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[#bfe8db] bg-[#e7f8f1] px-5 py-4 text-sm text-[#08775d] sm:px-7">
+            <div className="mb-6 flex items-start gap-3 rounded-2xl border border-ok-border bg-ok-bg px-5 py-4 text-sm text-ok-fg sm:px-7">
               <CalendarCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
               <p>
                 <strong className="font-semibold">Your visit has been moved.</strong>{" "}
@@ -64,7 +68,7 @@ export default async function AppointmentPage({
           )}
 
           {query.cancelled && (
-            <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[#f3c4c0] bg-[#fff0ef] px-5 py-4 text-sm text-[#9f3f38] sm:px-7">
+            <div className="mb-6 flex items-start gap-3 rounded-2xl border border-danger-border bg-danger-bg px-5 py-4 text-sm text-danger-fg sm:px-7">
               <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
               <p>
                 <strong className="font-semibold">This visit is cancelled.</strong>{" "}
@@ -86,7 +90,7 @@ export default async function AppointmentPage({
           />
         </div>
 
-        <footer className="relative mx-auto mt-16 flex max-w-4xl flex-col gap-2 border-t border-[#dbe3ef] pt-5 text-xs text-[#8898aa] sm:flex-row sm:items-center sm:justify-between">
+        <footer className="relative mx-auto mt-16 flex max-w-4xl flex-col gap-2 border-t border-line pt-5 text-xs text-ink-subtle sm:flex-row sm:items-center sm:justify-between">
           <span>Clipper · Seoul, Korea</span>
           <span>Thoughtful grooming, right at home.</span>
         </footer>

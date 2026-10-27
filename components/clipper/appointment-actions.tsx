@@ -17,9 +17,6 @@ type AppointmentActionsProps = {
   blockReason: ChangeBlockReason | null;
 };
 
-const ink = "#0a2540";
-const accent = "#635bff";
-
 const PHONE_NUMBER = "02-555-0142";
 const PHONE_HREF = "tel:+8225550142";
 
@@ -93,7 +90,7 @@ export function AppointmentActions({
     return (
       <Shell>
         <div>
-          <p className="font-semibold" style={{ color: ink }}>
+          <p className="font-semibold text-ink">
             This visit can no longer be changed online
           </p>
           <p className="mt-1">{changeBlockMessages[blockReason]}</p>
@@ -107,7 +104,7 @@ export function AppointmentActions({
     return (
       <Shell stacked>
         <div>
-          <p className="font-semibold" style={{ color: ink }}>
+          <p className="font-semibold text-ink">
             Cancel {appointment.pet.name}&apos;s visit?
           </p>
           <p className="mt-1">
@@ -117,7 +114,7 @@ export function AppointmentActions({
           </p>
         </div>
         {error && (
-          <Alert className="border-[#f3aaa0] bg-[#fff3f0] text-[#8f3d30]">
+          <Alert className="border-danger-border bg-danger-bg text-danger-fg">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -128,8 +125,7 @@ export function AppointmentActions({
             onClick={() =>
               send(`/api/appointments/${encodeURIComponent(appointment.reference)}/cancel`, null, "cancelled")
             }
-            className="h-11 rounded-full px-5 text-sm font-bold !text-white shadow-none"
-            style={{ background: "#9f3f38" }}
+            className="h-11 rounded-full bg-danger-fg px-5 text-sm font-bold !text-ink-inverse shadow-none"
           >
             {pending ? "Cancelling…" : "Yes, cancel this visit"}
           </Button>
@@ -138,7 +134,7 @@ export function AppointmentActions({
             variant="outline"
             disabled={pending}
             onClick={close}
-            className="h-11 rounded-full border-[#dbe3ef] bg-white px-5 text-sm font-bold text-[#53627a]"
+            className="h-11 rounded-full border-line bg-surface-card px-5 text-sm font-bold text-ink-muted"
           >
             Keep my visit
           </Button>
@@ -151,7 +147,7 @@ export function AppointmentActions({
     return (
       <Shell stacked>
         <div>
-          <p className="font-semibold" style={{ color: ink }}>
+          <p className="font-semibold text-ink">
             Pick a new arrival time
           </p>
           <p className="mt-1">
@@ -162,7 +158,7 @@ export function AppointmentActions({
         </div>
 
         {error && (
-          <Alert className="border-[#f3aaa0] bg-[#fff3f0] text-[#8f3d30]">
+          <Alert className="border-danger-border bg-danger-bg text-danger-fg">
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -171,7 +167,7 @@ export function AppointmentActions({
           <div className="grid gap-5 sm:grid-cols-2">
             {Object.entries(groupedSlots).map(([dateKey, dateSlots]) => (
               <div key={dateKey}>
-                <p className="mb-2 text-sm font-bold" style={{ color: ink }}>
+                <p className="mb-2 text-sm font-bold text-ink">
                   {dateSlots[0]?.dateLabel}
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -186,14 +182,9 @@ export function AppointmentActions({
                       className={cn(
                         "rounded-md border px-3 py-3 text-sm font-bold",
                         selectedSlotId === slot.id
-                          ? "text-white"
-                          : "border-[#dbe3ef] bg-white text-[#425466]",
+                          ? "border-brand bg-brand text-brand-on"
+                          : "border-line bg-surface-card text-ink-muted",
                       )}
-                      style={
-                        selectedSlotId === slot.id
-                          ? { background: accent, borderColor: accent }
-                          : undefined
-                      }
                     >
                       {slot.timeLabel}
                     </button>
@@ -221,8 +212,7 @@ export function AppointmentActions({
                 "changed",
               )
             }
-            className="h-11 rounded-full px-5 text-sm font-bold !text-white shadow-none"
-            style={{ background: accent }}
+            className="h-11 rounded-full bg-brand px-5 text-sm font-bold !text-brand-on shadow-none hover:bg-brand-hover"
           >
             {pending
               ? "Moving your visit…"
@@ -235,7 +225,7 @@ export function AppointmentActions({
             variant="outline"
             disabled={pending}
             onClick={close}
-            className="h-11 rounded-full border-[#dbe3ef] bg-white px-5 text-sm font-bold text-[#53627a]"
+            className="h-11 rounded-full border-line bg-surface-card px-5 text-sm font-bold text-ink-muted"
           >
             Never mind
           </Button>
@@ -247,7 +237,7 @@ export function AppointmentActions({
   return (
     <Shell>
       <div>
-        <p className="font-semibold" style={{ color: ink }}>
+        <p className="font-semibold text-ink">
           Need to change something?
         </p>
         <p className="mt-1">
@@ -259,8 +249,7 @@ export function AppointmentActions({
         <Button
           type="button"
           onClick={() => open("reschedule")}
-          className="h-11 rounded-full px-5 text-sm font-bold !text-white shadow-none"
-          style={{ background: accent }}
+          className="h-11 rounded-full bg-brand px-5 text-sm font-bold !text-brand-on shadow-none hover:bg-brand-hover"
         >
           <CalendarClock aria-hidden="true" className="size-4" /> Change time
         </Button>
@@ -268,7 +257,7 @@ export function AppointmentActions({
           type="button"
           variant="outline"
           onClick={() => open("cancel")}
-          className="h-11 rounded-full border-[#f3c4c0] bg-white px-5 text-sm font-bold text-[#9f3f38]"
+          className="h-11 rounded-full border-danger-border bg-surface-card px-5 text-sm font-bold text-danger-fg"
         >
           <X aria-hidden="true" className="size-4" /> Cancel visit
         </Button>
@@ -287,7 +276,7 @@ function Shell({
   return (
     <div
       className={cn(
-        "mt-8 flex flex-col gap-4 rounded-2xl border border-[#dbe3ef] bg-white px-5 py-5 text-sm text-[#53627a] sm:px-7",
+        "mt-8 flex flex-col gap-4 rounded-2xl border border-line bg-surface-card px-5 py-5 text-sm text-ink-muted sm:px-7",
         !stacked && "sm:flex-row sm:items-center sm:justify-between",
       )}
     >
@@ -301,7 +290,7 @@ function PhoneLink({ className }: { className?: string }) {
     <a
       href={PHONE_HREF}
       className={cn(
-        "inline-flex items-center gap-2 font-bold text-[#635bff] hover:text-[#0a2540]",
+        "inline-flex items-center gap-2 font-bold text-brand hover:text-ink",
         className,
       )}
     >
