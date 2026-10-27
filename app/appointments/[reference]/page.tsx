@@ -39,20 +39,20 @@ export default async function AppointmentPage({
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-surface text-ink">
-      <div aria-hidden="true" className="absolute -right-[28rem] -top-[35rem] h-[62rem] w-[62rem] rotate-[24deg] bg-[linear-gradient(135deg,#ffdb80,#ff8f70_28%,#d783ff_52%,#7a73ff_74%,#68d5ff)] opacity-55 blur-[3px] dark:opacity-30" />
-      <div className="mx-auto max-w-6xl px-5 pb-16 sm:px-8 lg:px-12">
-        <header className="relative flex items-center justify-between py-6 sm:py-8">
-          <Link href="/" className="text-2xl font-black tracking-[-0.07em] text-ink">clipper</Link>
+      <div aria-hidden="true" className="absolute -right-[18rem] -top-[24rem] h-[40rem] w-[40rem] rotate-[24deg] bg-[linear-gradient(135deg,#ffdb80,#ff8f70_28%,#d783ff_52%,#7a73ff_74%,#68d5ff)] opacity-55 blur-[3px] dark:opacity-30 sm:-right-[28rem] sm:-top-[35rem] sm:h-[62rem] sm:w-[62rem]" />
+      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-8 lg:px-12">
+        <header className="relative flex items-center justify-between gap-3 py-5 sm:py-8">
+          <Link href="/" className="inline-flex min-h-11 shrink-0 items-center text-xl font-black tracking-[-0.07em] text-ink sm:text-2xl">clipper</Link>
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Link href={BOOKING_HREF} className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold !text-brand-on transition-colors hover:bg-brand-hover">
+            <Link href={BOOKING_HREF} className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-4 py-2 text-xs font-bold !text-brand-on transition-colors hover:bg-brand-hover sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm">
               Book another visit <ArrowUpRight aria-hidden="true" className="size-4" />
             </Link>
           </div>
         </header>
 
-        <div className="relative mx-auto max-w-4xl pt-8 sm:pt-14">
-          <Link href="/appointments" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-ink-muted transition-colors hover:text-brand">
+        <div className="relative mx-auto max-w-4xl pt-6 sm:pt-14">
+          <Link href="/appointments" className="mb-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink-muted transition-colors hover:text-brand sm:mb-6">
             <ArrowLeft aria-hidden="true" className="size-4" /> All appointments
           </Link>
           {query.changed && (

@@ -290,7 +290,7 @@ function PhoneLink({ className }: { className?: string }) {
     <a
       href={PHONE_HREF}
       className={cn(
-        "inline-flex items-center gap-2 font-bold text-brand hover:text-ink",
+        "inline-flex min-h-11 items-center gap-2 font-bold text-brand hover:text-ink",
         className,
       )}
     >

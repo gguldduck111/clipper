@@ -48,14 +48,14 @@ export function AppointmentCard({ appointment }: AppointmentCardProps) {
   return (
     <section aria-labelledby="appointment-details-heading" className="overflow-hidden rounded-2xl border border-line bg-surface-card shadow-[0_20px_60px_var(--shadow-card)]">
       <div className="border-b border-line-soft px-5 py-6 sm:px-8 sm:py-7">
-        <div className="flex flex-wrap items-start justify-between gap-5">
-          <div>
+        <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-5">
+          <div className="min-w-0">
             <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-brand">Your Clipper visit</p>
-            <h2 id="appointment-details-heading" className="text-3xl font-bold leading-none tracking-[-0.04em] text-ink sm:text-4xl">
+            <h2 id="appointment-details-heading" className="break-words text-2xl font-bold leading-tight tracking-[-0.04em] text-ink sm:text-4xl sm:leading-none">
               {petName}&apos;s appointment
             </h2>
           </div>
-          <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-bold ${status.className}`}>
+          <span className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-bold ${status.className}`}>
             {appointment.status === "cancelled" ? (
               <X aria-hidden="true" className="size-3.5" strokeWidth={3} />
             ) : (
@@ -108,13 +108,13 @@ export function AppointmentCard({ appointment }: AppointmentCardProps) {
         </div>
         <div className="border-t border-line-soft px-5 py-5 sm:border-l sm:border-t-0 sm:px-8 sm:text-right">
           <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-ink-subtle">Total</p>
-          <p className="text-3xl font-bold tracking-[-0.04em] text-ink">{formatMoney(appointment.priceCents)}</p>
+          <p className="text-2xl font-bold tracking-[-0.04em] text-ink sm:text-3xl">{formatMoney(appointment.priceCents)}</p>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line-soft px-5 py-4 text-xs text-ink-subtle sm:px-8">
         <span>Booked with Clipper</span>
-        <span className="font-mono tracking-[0.12em] text-ink-muted">{appointment.reference}</span>
+        <span className="break-all font-mono tracking-[0.12em] text-ink-muted">{appointment.reference}</span>
       </div>
     </section>
   );

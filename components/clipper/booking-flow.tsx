@@ -75,13 +75,13 @@ export function BookingFlow({ options }: BookingFlowProps) {
 
   return (
       <section id={BOOKING_SECTION_ID} className="clipper-booking clipper-booking--prism scroll-mt-5">
-        <div className="mx-auto max-w-7xl px-5 pb-24 sm:px-8 lg:px-12">
-          <div className="mb-10 max-w-3xl pt-2">
+        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-8 sm:pb-24 lg:px-12">
+          <div className="mb-8 max-w-3xl pt-2 sm:mb-10">
             <p className="text-sm font-bold text-brand">Book a Clipper visit</p>
-            <h2 className="mt-3 text-[clamp(2.7rem,6vw,5.25rem)] font-bold leading-[0.95] tracking-[-0.06em] text-ink">
+            <h2 className="mt-3 break-words text-[clamp(2rem,7vw,5.25rem)] font-bold leading-[1.02] tracking-[-0.045em] text-ink sm:leading-[0.95] sm:tracking-[-0.06em]">
               Everything your pet needs. One calm visit.
             </h2>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-ink-muted">Choose the pet, service, location, and time. We’ll match the route with a trusted Seoul groomer.</p>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-ink-muted sm:mt-5 sm:text-base sm:leading-7">Choose the pet, service, location, and time. We’ll match the route with a trusted Seoul groomer.</p>
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-line bg-surface-card shadow-[0_32px_90px_var(--shadow-card-strong)]">
@@ -96,19 +96,19 @@ export function BookingFlow({ options }: BookingFlowProps) {
 
                 <fieldset>
                   <legend className="mb-4 text-lg font-bold tracking-[-0.025em] text-ink">2. Choose a service</legend>
-                  <div className="divide-y divide-line-soft border-y border-line-soft">{options.packages.map((pkg) => <button type="button" key={pkg.id} onClick={() => { setSelectedPackageId(pkg.id); setFormError(""); }} className={cn("grid w-full grid-cols-[1fr_auto] items-center gap-5 px-1 py-5 text-left", selectedPackageId === pkg.id ? "" : "opacity-70 hover:opacity-100")}><span><span className="flex items-center gap-2 font-bold text-ink"><span className={cn("size-2 rounded-full", selectedPackageId === pkg.id ? "bg-brand" : "bg-line")} />{pkg.name}</span><span className="mt-1 block pl-4 text-xs leading-5 text-ink-subtle">{pkg.description}</span></span><span className="text-right"><span className="block font-bold text-ink">{formatMoney(pkg.priceCents)}</span><span className="text-xs text-ink-subtle">{pkg.durationMinutes} min</span></span></button>)}</div>
+                  <div className="divide-y divide-line-soft border-y border-line-soft">{options.packages.map((pkg) => <button type="button" key={pkg.id} onClick={() => { setSelectedPackageId(pkg.id); setFormError(""); }} className={cn("grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-1 py-4 text-left sm:gap-5 sm:py-5", selectedPackageId === pkg.id ? "" : "opacity-70 hover:opacity-100")}><span><span className="flex items-center gap-2 font-bold text-ink"><span className={cn("size-2 rounded-full", selectedPackageId === pkg.id ? "bg-brand" : "bg-line")} />{pkg.name}</span><span className="mt-1 block pl-4 text-xs leading-5 text-ink-subtle">{pkg.description}</span></span><span className="shrink-0 text-right"><span className="block font-bold text-ink">{formatMoney(pkg.priceCents)}</span><span className="text-xs text-ink-subtle">{pkg.durationMinutes} min</span></span></button>)}</div>
                 </fieldset>
 
                 <fieldset>
                   <legend className="mb-4 text-lg font-bold tracking-[-0.025em] text-ink">3. Where should we arrive?</legend>
-                  <div className="grid gap-3 sm:grid-cols-[1.25fr_0.75fr]"><Input aria-label="Street address" value={address} onChange={(event) => setAddress(event.target.value)} placeholder="Street address" className="h-12 rounded-md border-line bg-surface-card px-4 focus-visible:ring-brand" /><select aria-label="Neighborhood" value={selectedNeighborhood} onChange={(event) => changeNeighborhood(event.target.value)} className="h-12 rounded-md border border-line bg-surface-card px-4 text-sm outline-none"><option value="">Neighborhood</option>{options.neighborhoods.map((neighborhood) => <option key={neighborhood} value={neighborhood}>{neighborhood}</option>)}</select></div>
+                  <div className="grid gap-3 sm:grid-cols-[1.25fr_0.75fr]"><Input aria-label="Street address" value={address} onChange={(event) => setAddress(event.target.value)} placeholder="Street address" className="h-12 rounded-md border-line bg-surface-card px-4 focus-visible:ring-brand" /><select aria-label="Neighborhood" value={selectedNeighborhood} onChange={(event) => changeNeighborhood(event.target.value)} className="h-12 w-full min-w-0 rounded-md border border-line bg-surface-card px-3 text-base outline-none focus:border-brand sm:px-4 sm:text-sm"><option value="">Neighborhood</option>{options.neighborhoods.map((neighborhood) => <option key={neighborhood} value={neighborhood}>{neighborhood}</option>)}</select></div>
                   <Input aria-label="Apartment, floor, or gate code" value={accessNotes} onChange={(event) => setAccessNotes(event.target.value)} placeholder="Apartment, floor, or gate code (optional)" className="mt-3 h-11 rounded-md border-line bg-surface-card px-4" />
                 </fieldset>
 
                 <fieldset>
                   <legend className="mb-1 text-lg font-bold tracking-[-0.025em] text-ink">4. Pick an arrival time</legend>
                   <p className="mb-4 text-xs text-ink-subtle">All times KST · matched against live groomer routes</p>
-                  <div className="grid gap-5 sm:grid-cols-2">{Object.entries(groupedSlots).map(([dateKey, dateSlots]) => <div key={dateKey}><p className="mb-2 text-sm font-bold text-ink">{dateSlots[0]?.dateLabel}</p><div className="grid grid-cols-2 gap-2">{dateSlots.map((slot) => <button type="button" key={slot.id} onClick={() => { setSelectedSlotId(slot.id); setFormError(""); }} className={cn("rounded-md border px-3 py-3 text-sm font-bold", selectedSlotId === slot.id ? "border-brand bg-brand text-brand-on" : "border-line bg-surface-card text-ink-muted")}>{slot.timeLabel}</button>)}</div></div>)}{!slots.length && <p className="text-sm text-ink-muted">{selectedNeighborhood ? "No routes are open for this address yet." : "Choose a neighborhood to see the arrival times we can cover."}</p>}</div>
+                  <div className="grid gap-5 sm:grid-cols-2">{Object.entries(groupedSlots).map(([dateKey, dateSlots]) => <div key={dateKey}><p className="mb-2 text-sm font-bold text-ink">{dateSlots[0]?.dateLabel}</p><div className="grid grid-cols-2 gap-2">{dateSlots.map((slot) => <button type="button" key={slot.id} onClick={() => { setSelectedSlotId(slot.id); setFormError(""); }} className={cn("min-h-11 rounded-md border px-2 py-3 text-sm font-bold sm:px-3", selectedSlotId === slot.id ? "border-brand bg-brand text-brand-on" : "border-line bg-surface-card text-ink-muted")}>{slot.timeLabel}</button>)}</div></div>)}{!slots.length && <p className="text-sm text-ink-muted">{selectedNeighborhood ? "No routes are open for this address yet." : "Choose a neighborhood to see the arrival times we can cover."}</p>}</div>
                 </fieldset>
               </div>
 
@@ -118,7 +118,7 @@ export function BookingFlow({ options }: BookingFlowProps) {
                   <p className="mt-5 text-2xl font-bold tracking-[-0.04em] text-ink">{petName || "Your pet"}</p>
                   <p className="mt-1 text-sm text-ink-muted">{selectedPackage?.name ?? "Choose a service"}</p>
                   <dl className="mt-7 space-y-4 border-y border-line py-5 text-sm"><div className="flex justify-between gap-3"><dt className="text-ink-subtle">Arrival</dt><dd className="text-right font-semibold text-ink">{selectedSlot ? `${selectedSlot.dateLabel}, ${selectedSlot.timeLabel}` : "Not selected"}</dd></div><div className="flex justify-between"><dt className="text-ink-subtle">Duration</dt><dd className="font-semibold text-ink">{durationMinutes} min</dd></div><div className="flex justify-between"><dt className="text-ink-subtle">Neighborhood</dt><dd className="font-semibold text-ink">{selectedNeighborhood || "Not selected"}</dd></div></dl>
-                  <div className="my-6 flex items-end justify-between"><span className="text-sm font-semibold text-ink-muted">Total</span><span className="text-3xl font-bold tracking-[-0.05em] text-ink">{formatMoney(totalPrice)}</span></div>
+                  <div className="my-6 flex flex-wrap items-end justify-between gap-2"><span className="text-sm font-semibold text-ink-muted">Total</span><span className="text-3xl font-bold tracking-[-0.05em] text-ink">{formatMoney(totalPrice)}</span></div>
                   <Button type="button" onClick={validateAndSubmit} disabled={submitting} className="h-12 w-full rounded-md bg-brand text-sm font-bold !text-brand-on shadow-none hover:bg-brand-hover">{submitting ? "Saving your spot…" : "Confirm visit →"}</Button>
                   <p className="mt-3 text-center text-[0.68rem] leading-5 text-ink-subtle">No charge until your groomer is confirmed.</p>
                 </div>

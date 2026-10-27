@@ -242,12 +242,36 @@ a {
   color: inherit;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* iOS Safari zooms the page when a focused control is under 16px. */
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
 /* Temporary ui.sh comparison variants. Remove after a direction is selected. */
 .clipper-booking--prism {
   max-width: none;
-  padding-top: 5rem;
+  padding-top: 2.5rem;
   border-block: 1px solid var(--line);
   background: var(--surface);
+}
+
+@media (min-width: 640px) {
+  .clipper-booking--prism {
+    padding-top: 5rem;
+  }
 }
 
 .clipper-booking--prism > div > div:last-child {
