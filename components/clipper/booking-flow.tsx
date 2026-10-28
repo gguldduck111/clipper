@@ -47,6 +47,11 @@ export function BookingFlow({ options }: BookingFlowProps) {
     setFormError("");
   }
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    validateAndSubmit();
+  }
+
   function validateAndSubmit() {
     if (!petName.trim() || !petBreed || !selectedPackageId || !selectedNeighborhood || !address.trim() || !selectedSlot) {
       setFormError("Please complete each step before booking your Clipper visit.");
@@ -85,7 +90,7 @@ export function BookingFlow({ options }: BookingFlowProps) {
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-line bg-surface-card shadow-[0_32px_90px_var(--shadow-card-strong)]">
-            <div className="grid lg:grid-cols-[minmax(0,1fr)_20rem]">
+            <form onSubmit={handleSubmit} className="grid lg:grid-cols-[minmax(0,1fr)_20rem]">
               <div className="space-y-10 p-5 sm:p-8 lg:p-10">
                 {formError && <Alert className="border-danger-border bg-danger-bg text-danger-fg"><AlertDescription>{formError}</AlertDescription></Alert>}
 
@@ -119,11 +124,11 @@ export function BookingFlow({ options }: BookingFlowProps) {
                   <p className="mt-1 text-sm text-ink-muted">{selectedPackage?.name ?? "Choose a service"}</p>
                   <dl className="mt-7 space-y-4 border-y border-line py-5 text-sm"><div className="flex justify-between gap-3"><dt className="text-ink-subtle">Arrival</dt><dd className="text-right font-semibold text-ink">{selectedSlot ? `${selectedSlot.dateLabel}, ${selectedSlot.timeLabel}` : "Not selected"}</dd></div><div className="flex justify-between"><dt className="text-ink-subtle">Duration</dt><dd className="font-semibold text-ink">{durationMinutes} min</dd></div><div className="flex justify-between"><dt className="text-ink-subtle">Neighborhood</dt><dd className="font-semibold text-ink">{selectedNeighborhood || "Not selected"}</dd></div></dl>
                   <div className="my-6 flex flex-wrap items-end justify-between gap-2"><span className="text-sm font-semibold text-ink-muted">Total</span><span className="text-3xl font-bold tracking-[-0.05em] text-ink">{formatMoney(totalPrice)}</span></div>
-                  <Button type="button" onClick={validateAndSubmit} disabled={submitting} className="h-12 w-full rounded-md bg-brand text-sm font-bold !text-brand-on shadow-none hover:bg-brand-hover">{submitting ? "Saving your spot…" : "Confirm visit →"}</Button>
+                  <Button type="submit" disabled={submitting} className="h-12 w-full rounded-md bg-brand text-sm font-bold !text-brand-on shadow-none hover:bg-brand-hover">{submitting ? "Saving your spot…" : "Confirm visit →"}</Button>
                   <p className="mt-3 text-center text-[0.68rem] leading-5 text-ink-subtle">No charge until your groomer is confirmed.</p>
                 </div>
               </aside>
-            </div>
+            </form>
           </div>
         </div>
       </section>
