@@ -175,6 +175,7 @@ export function AppointmentActions({
                     <button
                       type="button"
                       key={slot.id}
+                      aria-pressed={selectedSlotId === slot.id}
                       onClick={() => {
                         setSelectedSlotId(slot.id);
                         setError("");
