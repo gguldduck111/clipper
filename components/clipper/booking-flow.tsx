@@ -47,7 +47,7 @@ export function BookingFlow({ options }: BookingFlowProps) {
     setFormError("");
   }
 
-  function validateAndSubmit() {
+  async function validateAndSubmit() {
     if (!petName.trim() || !petBreed || !selectedPackageId || !selectedNeighborhood || !address.trim() || !selectedSlot) {
       setFormError("Please complete each step before booking your Clipper visit.");
       return;
@@ -57,26 +57,23 @@ export function BookingFlow({ options }: BookingFlowProps) {
 
     const fallbackError = "We couldn’t save that visit. Please check your details and try again.";
 
-    fetch("/api/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ petName: petName.trim(), petBreed, packageId: selectedPackageId, neighborhood: selectedNeighborhood, address: address.trim(), startsAt: selectedSlot.startsAt, notes: accessNotes.trim() }),
-    })
-      .then(
-        async (response) => {
-          const data = (await response.json().catch(() => null)) as { reference?: string; error?: string } | null;
-          if (!response.ok || !data?.reference) {
-            setSubmitting(false);
-            setFormError(data?.error ?? fallbackError);
-            return;
-          }
-          window.location.assign(`/appointments/${encodeURIComponent(data.reference)}`);
-        },
-        () => {
-          setSubmitting(false);
-          setFormError(fallbackError);
-        },
-      );
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ petName: petName.trim(), petBreed, packageId: selectedPackageId, neighborhood: selectedNeighborhood, address: address.trim(), startsAt: selectedSlot.startsAt, notes: accessNotes.trim() }),
+      });
+      const data = (await response.json().catch(() => null)) as { reference?: string; error?: string } | null;
+      if (!response.ok || !data?.reference) {
+        setFormError(data?.error ?? fallbackError);
+        return;
+      }
+      window.location.assign(`/appointments/${encodeURIComponent(data.reference)}`);
+    } catch {
+      setFormError(fallbackError);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
