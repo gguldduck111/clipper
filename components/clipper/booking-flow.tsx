@@ -54,23 +54,29 @@ export function BookingFlow({ options }: BookingFlowProps) {
     }
     setSubmitting(true);
     setFormError("");
+
+    const fallbackError = "We couldn’t save that visit. Please check your details and try again.";
+
     fetch("/api/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ petName: petName.trim(), petBreed, packageId: selectedPackageId, neighborhood: selectedNeighborhood, address: address.trim(), startsAt: selectedSlot.startsAt, notes: accessNotes.trim() }),
     })
-      .then((response) => {
-        if (!response.ok) throw new Error("Could not create booking");
-        return response.json() as Promise<{ reference?: string }>;
-      })
-      .then((data) => {
-        if (!data.reference) throw new Error("Booking reference missing");
-        window.location.assign(`/appointments/${encodeURIComponent(data.reference)}`);
-      })
-      .catch(() => {
-        setSubmitting(false);
-        setFormError("We couldn’t save that visit. Please check your details and try again.");
-      });
+      .then(
+        async (response) => {
+          const data = (await response.json().catch(() => null)) as { reference?: string; error?: string } | null;
+          if (!response.ok || !data?.reference) {
+            setSubmitting(false);
+            setFormError(data?.error ?? fallbackError);
+            return;
+          }
+          window.location.assign(`/appointments/${encodeURIComponent(data.reference)}`);
+        },
+        () => {
+          setSubmitting(false);
+          setFormError(fallbackError);
+        },
+      );
   }
 
   return (
