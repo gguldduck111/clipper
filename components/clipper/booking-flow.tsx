@@ -2,7 +2,18 @@
 
 import { useMemo, useState } from "react";
 
-import { Alert, AlertDescription, Button, Input } from "@/components/ui";
+import {
+  Alert,
+  AlertDescription,
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui";
 import { BOOKING_SECTION_ID } from "@/lib/clipper/constants";
 import { formatMoney } from "@/lib/clipper/format";
 import type { AvailableSlot, BookingOption } from "@/lib/types";
@@ -11,6 +22,23 @@ import { cn } from "@/lib/utils";
 type BookingFlowProps = {
   options: BookingOption;
 };
+
+const BREEDS = [
+  "Golden Retriever",
+  "Labrador Retriever",
+  "French Bulldog",
+  "German Shepherd",
+  "Poodle",
+  "Miniature Poodle",
+  "Pomeranian",
+  "Pekinese",
+  "Chihuahua",
+  "Jindo",
+  "Shiba Inu",
+  "Welsh Corgi",
+  "Yorkshire Terrier",
+  "Mixed Breed",
+];
 
 export function BookingFlow({ options }: BookingFlowProps) {
   const [petName, setPetName] = useState("");
@@ -91,7 +119,23 @@ export function BookingFlow({ options }: BookingFlowProps) {
 
                 <fieldset>
                   <legend className="mb-4 text-lg font-bold tracking-[-0.025em] text-ink">1. Who are we grooming?</legend>
-                  <div className="grid gap-3 sm:grid-cols-2"><label className="text-xs font-bold text-ink-muted">Pet name<Input aria-label="Pet name" value={petName} onChange={(event) => setPetName(event.target.value)} placeholder="e.g. Luna" className="mt-2 h-12 rounded-md border-line bg-surface-card px-4 text-base font-normal text-ink focus-visible:ring-brand" /></label><label className="text-xs font-bold text-ink-muted">Breed<select aria-label="Breed" value={petBreed} onChange={(event) => setPetBreed(event.target.value)} className="mt-2 h-12 w-full rounded-md border border-line bg-surface-card px-4 text-base font-normal text-ink outline-none focus:border-brand"><option value="">Choose a breed</option><option>Golden Retriever</option><option>Labrador Retriever</option><option>French Bulldog</option><option>German Shepherd</option><option>Poodle</option><option>Miniature Poodle</option><option>Pomeranian</option><option>Pekinese</option><option>Chihuahua</option><option>Jindo</option><option>Shiba Inu</option><option>Welsh Corgi</option><option>Yorkshire Terrier</option><option>Mixed Breed</option></select></label></div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <Label htmlFor="pet-name" className="text-xs font-bold text-ink-muted">Pet name</Label>
+                      <Input id="pet-name" value={petName} onChange={(event) => setPetName(event.target.value)} placeholder="e.g. Luna" className="mt-2 h-12 rounded-md border-line bg-surface-card px-4 text-base font-normal text-ink focus-visible:ring-brand" />
+                    </div>
+                    <div>
+                      <Label htmlFor="pet-breed" className="text-xs font-bold text-ink-muted">Breed</Label>
+                      <Select value={petBreed} onValueChange={setPetBreed}>
+                        <SelectTrigger id="pet-breed" className="mt-2 h-12 rounded-md border-line bg-surface-card px-4 text-base font-normal text-ink focus:border-brand">
+                          <SelectValue placeholder="Choose a breed" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {BREEDS.map((breed) => <SelectItem key={breed} value={breed}>{breed}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 </fieldset>
 
                 <fieldset>
@@ -101,8 +145,27 @@ export function BookingFlow({ options }: BookingFlowProps) {
 
                 <fieldset>
                   <legend className="mb-4 text-lg font-bold tracking-[-0.025em] text-ink">3. Where should we arrive?</legend>
-                  <div className="grid gap-3 sm:grid-cols-[1.25fr_0.75fr]"><Input aria-label="Street address" value={address} onChange={(event) => setAddress(event.target.value)} placeholder="Street address" className="h-12 rounded-md border-line bg-surface-card px-4 focus-visible:ring-brand" /><select aria-label="Neighborhood" value={selectedNeighborhood} onChange={(event) => changeNeighborhood(event.target.value)} className="h-12 w-full min-w-0 rounded-md border border-line bg-surface-card px-3 text-base outline-none focus:border-brand sm:px-4 sm:text-sm"><option value="">Neighborhood</option>{options.neighborhoods.map((neighborhood) => <option key={neighborhood} value={neighborhood}>{neighborhood}</option>)}</select></div>
-                  <Input aria-label="Apartment, floor, or gate code" value={accessNotes} onChange={(event) => setAccessNotes(event.target.value)} placeholder="Apartment, floor, or gate code (optional)" className="mt-3 h-11 rounded-md border-line bg-surface-card px-4" />
+                  <div className="grid gap-3 sm:grid-cols-[1.25fr_0.75fr]">
+                    <div>
+                      <Label htmlFor="address" className="sr-only">Street address</Label>
+                      <Input id="address" value={address} onChange={(event) => setAddress(event.target.value)} placeholder="Street address" className="h-12 rounded-md border-line bg-surface-card px-4 focus-visible:ring-brand" />
+                    </div>
+                    <div>
+                      <Label htmlFor="neighborhood" className="sr-only">Neighborhood</Label>
+                      <Select value={selectedNeighborhood} onValueChange={changeNeighborhood}>
+                        <SelectTrigger id="neighborhood" className="h-12 w-full min-w-0 rounded-md border border-line bg-surface-card px-3 text-base focus:border-brand sm:px-4 sm:text-sm">
+                          <SelectValue placeholder="Neighborhood" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {options.neighborhoods.map((neighborhood) => <SelectItem key={neighborhood} value={neighborhood}>{neighborhood}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="access-notes" className="sr-only">Apartment, floor, or gate code</Label>
+                    <Input id="access-notes" value={accessNotes} onChange={(event) => setAccessNotes(event.target.value)} placeholder="Apartment, floor, or gate code (optional)" className="mt-3 h-11 rounded-md border-line bg-surface-card px-4" />
+                  </div>
                 </fieldset>
 
                 <fieldset>
