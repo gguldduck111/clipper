@@ -108,7 +108,12 @@ export async function POST(request: Request, { params }: RouteContext) {
       groomerId,
     });
   } catch (error) {
-    console.error("Failed to reschedule booking", error);
+    console.error(
+      JSON.stringify({
+        message: "Failed to reschedule booking",
+        error: error instanceof Error ? error.message : String(error),
+      }),
+    );
 
     return Response.json(
       { ok: false, error: "We could not move that visit. Please try again." },
@@ -116,10 +121,13 @@ export async function POST(request: Request, { params }: RouteContext) {
     );
   }
 
-  console.info("Clipper booking rescheduled", {
-    reference: appointment.reference,
-    startsAt: startsAt.toISOString(),
-  });
+  console.info(
+    JSON.stringify({
+      message: "Clipper booking rescheduled",
+      reference: appointment.reference,
+      startsAt: startsAt.toISOString(),
+    }),
+  );
 
   return Response.json({
     ok: true,

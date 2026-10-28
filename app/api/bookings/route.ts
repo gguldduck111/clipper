@@ -113,7 +113,12 @@ export async function POST(request: Request) {
       notes,
     });
   } catch (error) {
-    console.error("Failed to save booking", error);
+    console.error(
+      JSON.stringify({
+        message: "Failed to save booking",
+        error: error instanceof Error ? error.message : String(error),
+      }),
+    );
 
     return Response.json(
       { ok: false, error: "We could not save that visit. Please try again." },
@@ -121,7 +126,13 @@ export async function POST(request: Request) {
     );
   }
 
-  console.info("Clipper booking created", { bookingReference, petName });
+  console.info(
+    JSON.stringify({
+      message: "Clipper booking created",
+      bookingReference,
+      petName,
+    }),
+  );
 
   return Response.json({ ok: true, reference: bookingReference });
 }

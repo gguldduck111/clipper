@@ -33,7 +33,12 @@ export async function POST(_request: Request, { params }: RouteContext) {
   try {
     await cancelAppointment(appointment.id);
   } catch (error) {
-    console.error("Failed to cancel booking", error);
+    console.error(
+      JSON.stringify({
+        message: "Failed to cancel booking",
+        error: error instanceof Error ? error.message : String(error),
+      }),
+    );
 
     return Response.json(
       { ok: false, error: "We could not cancel that visit. Please try again." },
@@ -41,7 +46,12 @@ export async function POST(_request: Request, { params }: RouteContext) {
     );
   }
 
-  console.info("Clipper booking cancelled", { reference: appointment.reference });
+  console.info(
+    JSON.stringify({
+      message: "Clipper booking cancelled",
+      reference: appointment.reference,
+    }),
+  );
 
   return Response.json({ ok: true });
 }
