@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type FormEvent, useMemo, useState } from "react";
 
 import { Alert, AlertDescription, Button, Input } from "@/components/ui";
 import { BOOKING_SECTION_ID } from "@/lib/clipper/constants";
@@ -47,12 +47,8 @@ export function BookingFlow({ options }: BookingFlowProps) {
     setFormError("");
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    validateAndSubmit();
-  }
-
-  function validateAndSubmit() {
     if (!petName.trim() || !petBreed || !selectedPackageId || !selectedNeighborhood || !address.trim() || !selectedSlot) {
       setFormError("Please complete each step before booking your Clipper visit.");
       return;
